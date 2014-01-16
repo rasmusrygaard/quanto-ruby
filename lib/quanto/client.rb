@@ -1,3 +1,5 @@
+require 'oauth2'
+
 module Quanto
   class Client
 

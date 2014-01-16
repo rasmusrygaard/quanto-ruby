@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["rasmus@rasmusrygaard.com"]
   spec.description   = %q{This gem acts as an API wrapper for the quanto quantified self application.}
   spec.summary       = %q{a Ruby API for quanto}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/rasmusrygaard/quanto-ruby"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

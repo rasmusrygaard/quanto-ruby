@@ -30,7 +30,8 @@ module Quanto
     end
 
     def post(path, options)
-      access_token.post(path, options)
+      url = "/api/v#{API_VERSION}/#{path}"
+      access_token.post(url, options)
     end
 
   end

@@ -5,8 +5,11 @@ describe Quanto::Client do
 
   let(:consumer_key) { 'consumer_key' }
   let(:consumer_secret) { 'consumer_secret' }
+  let(:client) { Quanto::Client.new(consumer_key, consumer_secret, options) }
 
   describe '#initialize' do
+
+    let(:client) { Quanto::Client.new(consumer_key, consumer_secret, options) }
 
     it 'constructs an OAuth2 consumer' do
       OAuth2::Client.should_receive(:new)
@@ -29,8 +32,6 @@ describe Quanto::Client do
 
   describe '#access_token' do
 
-    let(:client) { double('OAuth2::Client') }
-    let(:client) { Quanto::Client.new(consumer_key, consumer_secret, options) }
 
     context 'without credentials' do
 
@@ -55,10 +56,28 @@ describe Quanto::Client do
         OAuth2::AccessToken
           .should_receive(:new)
           .with(anything, options[:access_token])
-        client.stub(:client).and_return(double('OAuth2::Client'))
+        client.stub(:consumer).and_return(double('OAuth2::Client'))
         client.send(:access_token)
       end
 
+    end
+
+  end
+
+  describe '#post' do
+
+    let(:options) { { access_token: 'token' } }
+    let(:token) { double('OAuth2::AccessToken') }
+
+    before(:each) do
+      client.stub(:access_token).and_return(token)
+    end
+
+    it 'prepends /api/v1' do
+      path = 'foo'
+      prefix = "/api/v1/"
+      token.should_receive(:post).with("#{prefix}#{path}", anything)
+      client.send(:post, path, {})
     end
 
   end

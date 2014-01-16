@@ -8,18 +8,18 @@ describe Quanto::Client do
 
   describe '#initialize' do
 
-    it 'constructs an OAuth consumer' do
-      OAuth::Consumer.should_receive(:new)
+    it 'constructs an OAuth2 consumer' do
+      OAuth2::Client.should_receive(:new)
       Quanto::Client.new(consumer_key, consumer_secret)
     end
 
     it 'passes consumer credentials' do
-      OAuth::Consumer.should_receive(:new).with(consumer_key, consumer_secret, anything)
+      OAuth2::Client.should_receive(:new).with(consumer_key, consumer_secret, anything)
       Quanto::Client.new(consumer_key, consumer_secret)
     end
 
     it 'passes the quanto URL' do
-      OAuth::Consumer.should_receive(:new) do |key, secret, options|
+      OAuth2::Client.should_receive(:new) do |key, secret, options|
         expect(options[:site]).to eq('http://quanto.herokuapp.com')
       end
       Quanto::Client.new(consumer_key, consumer_secret)
@@ -29,7 +29,7 @@ describe Quanto::Client do
 
   describe '#access_token' do
 
-    let(:consumer) { double('OAuth::Consumer') }
+    let(:client) { double('OAuth2::Client') }
     let(:client) { Quanto::Client.new(consumer_key, consumer_secret, options) }
 
     context 'without credentials' do
@@ -44,16 +44,18 @@ describe Quanto::Client do
 
     context 'with credentials' do
 
-      let(:options) { { access_token: 'token', access_token_secret: 'secret' } }
+      let(:options) { { access_token: 'token' } }
 
       it 'creates an access token' do
-        OAuth::AccessToken.should_receive(:new)
+        OAuth2::AccessToken.should_receive(:new)
         client.send(:access_token)
       end
 
       it 'passes the consumer' do
-        OAuth::AccessToken.should_receive(:new).with(anything, options[:access_token], options[:access_token_secret])
-        client.stub(:consumer).and_return(double('OAuth::Consumer'))
+        OAuth2::AccessToken
+          .should_receive(:new)
+          .with(anything, options[:access_token])
+        client.stub(:client).and_return(double('OAuth2::Client'))
         client.send(:access_token)
       end
 

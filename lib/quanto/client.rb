@@ -30,7 +30,6 @@ module Quanto
     end
 
     def post(path, options)
-      options[:date] ||= Date.today.to_s
       access_token.post(path, options)
     end
 

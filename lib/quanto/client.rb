@@ -1,4 +1,5 @@
 require 'oauth2'
+require 'json'
 
 module Quanto
   class Client
@@ -29,9 +30,15 @@ module Quanto
       @access_token ||= OAuth2::AccessToken.new(@consumer, @token)
     end
 
-    def post(path, options)
+    def post(path, options={})
       url = "/api/v#{API_VERSION}/#{path}"
       access_token.post(url, body: options)
+    end
+
+    def get(path, options={})
+      url = "/api/v#{API_VERSION}/#{path}"
+      response = access_token.get(url, options).body
+      JSON.parse(response)
     end
 
   end

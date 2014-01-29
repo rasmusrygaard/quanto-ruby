@@ -14,8 +14,7 @@ module Quanto
     # Make a GET request for the URL for the authenticated plugin.
     # Returns the plugin URL as a string.
     def plugin_url
-      response = get('/plugin').body
-      attributes = JSON.parse(response)
+      attributes = get('/plugin')
       attributes["url"]
     end
 

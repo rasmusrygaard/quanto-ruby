@@ -2,13 +2,13 @@ module Quanto
 
   class Client
 
-    def record_metric(value, type, opts={})
-      metric  = {
-        metric_type: type,
+    def record_entry(value, metric_name, opts={})
+      entry  = {
+        metric: metric_name,
         value: value,
         date: opts[:date] || Date.today.to_s
       }
-      post('/metrics', metric: metric)
+      post('/entries', entry: entry)
     end
 
     # Make a GET request for the URL for the authenticated plugin.

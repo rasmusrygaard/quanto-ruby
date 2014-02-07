@@ -1,5 +1,5 @@
 require 'quanto/client'
-require 'quanto/metrics'
+require 'quanto/entries'
 
 module Quanto
 

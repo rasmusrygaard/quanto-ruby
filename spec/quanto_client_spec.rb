@@ -12,17 +12,17 @@ describe Quanto::Client do
     let(:client) { Quanto::Client.new(consumer_key, consumer_secret, options) }
 
     it 'constructs an OAuth2 consumer' do
-      OAuth2::Client.should_receive(:new)
+      expect(OAuth2::Client).to receive(:new)
       Quanto::Client.new(consumer_key, consumer_secret)
     end
 
     it 'passes consumer credentials' do
-      OAuth2::Client.should_receive(:new).with(consumer_key, consumer_secret, anything)
+      expect(OAuth2::Client).to receive(:new).with(consumer_key, consumer_secret, anything)
       Quanto::Client.new(consumer_key, consumer_secret)
     end
 
     it 'passes the quanto URL' do
-      OAuth2::Client.should_receive(:new) do |key, secret, options|
+      expect(OAuth2::Client).to receive(:new) do |key, secret, options|
         expect(options[:site]).to eq('http://quanto.herokuapp.com')
       end
       Quanto::Client.new(consumer_key, consumer_secret)
@@ -48,15 +48,13 @@ describe Quanto::Client do
       let(:options) { { access_token: 'token' } }
 
       it 'creates an access token' do
-        OAuth2::AccessToken.should_receive(:new)
+        expect(OAuth2::AccessToken).to receive(:new)
         client.send(:access_token)
       end
 
       it 'passes the consumer' do
-        OAuth2::AccessToken
-          .should_receive(:new)
-          .with(anything, options[:access_token])
-        client.stub(:consumer).and_return(double('OAuth2::Client'))
+        expect(OAuth2::AccessToken).to receive(:new).with(anything, options[:access_token])
+        allow(client).to receive(:consumer).and_return(double('OAuth2::Client'))
         client.send(:access_token)
       end
 
@@ -70,13 +68,13 @@ describe Quanto::Client do
     let(:token) { double('OAuth2::AccessToken') }
 
     before(:each) do
-      client.stub(:access_token).and_return(token)
+      allow(client).to receive(:access_token).and_return(token)
     end
 
     it 'prepends /api/v1' do
       path = 'foo'
       prefix = "/api/v1/"
-      token.should_receive(:post).with("#{prefix}#{path}", anything)
+      expect(token).to receive(:post).with("#{prefix}#{path}", anything)
       client.send(:post, path, {})
     end
 

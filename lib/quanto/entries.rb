@@ -18,6 +18,10 @@ module Quanto
       attributes["url"]
     end
 
+    def metrics
+      get('/plugin/metrics')
+    end
+
   end
 
 end

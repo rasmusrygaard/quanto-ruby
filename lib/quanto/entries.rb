@@ -6,7 +6,7 @@ module Quanto
       entry  = {
         metric: metric_name,
         value: value,
-        date: opts[:date] || Date.today.to_s
+        date: opts[:date] || Time.zone.now.to_date.to_s
       }
       post('/entries', entry: entry)
     end

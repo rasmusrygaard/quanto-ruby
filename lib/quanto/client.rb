@@ -32,7 +32,7 @@ module Quanto
 
     def post(path, options={})
       url = "/api/v#{API_VERSION}/#{path}"
-      response = access_token.post(url, body: options)
+      response = access_token.post(url, body: options).body
       JSON.parse(response)
     end
 

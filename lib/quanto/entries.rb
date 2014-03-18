@@ -18,6 +18,14 @@ module Quanto
       attributes["url"]
     end
 
+    # Activate the current plugin.
+    # This should only be done once credentials have been obtained.
+    # Returns the url for the current plugin.
+    def activate_plugin
+      attributes = post('/activations')
+      attributes["url"]
+    end
+
     def metrics
       get('/plugin/metrics')
     end

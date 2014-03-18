@@ -74,7 +74,7 @@ describe Quanto::Client do
     it 'prepends /api/v1' do
       path = 'foo'
       prefix = "/api/v1/"
-      expect(token).to receive(:post).with("#{prefix}#{path}", anything)
+      expect(token).to receive(:post).with("#{prefix}#{path}", anything).and_return ('[]')
       client.send(:post, path, {})
     end
 

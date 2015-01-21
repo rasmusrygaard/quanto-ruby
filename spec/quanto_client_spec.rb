@@ -23,7 +23,7 @@ describe Quanto::Client do
 
     it 'passes the quanto URL' do
       expect(OAuth2::Client).to receive(:new) do |key, secret, options|
-        expect(options[:site]).to eq('http://tryquanto.com')
+        expect(options[:site]).to eq('http://quanto.herokuapp.com')
       end
       Quanto::Client.new(consumer_key, consumer_secret)
     end

@@ -5,7 +5,7 @@ module Quanto
   class Client
 
     API_VERSION = "1"
-    QUANTO_URL = "http://tryquanto.com"
+    QUANTO_URL = "http://quanto.herokuapp.com"
 
     def initialize(consumer_key, consumer_secret, options = {})
       @consumer =
